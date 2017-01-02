@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+
 import { Router, Route, Link } from 'react-router';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { addTodo } from './actions/incrementAction';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 require("./basic.less");
 
@@ -12,11 +18,27 @@ require("./basic.less");
 //  );
 
 class App extends Component {
+  constructor() {
+    super();
+  }
+
+  addTodo () {
+    console.log(this.props.dispatch);
+    var todo = 'yolo swag this up';
+    this.props.dispatch(addTodo(todo));
+    console.log(this.props.todos);
+  }
+
   render() {
     return (
       <div className="App">
         <div className="App-header">
           <h2>XyCLONE</h2>
+          <span onClick={this.addTodo.bind(this)}> click me to change state
+            {this.props.todos.map(todo =>
+              <span> {todo.text} </span>
+            )}
+          </span>
         </div>
         <p className="App-intro">
           TRY ME! : make a change somewhere and save your text editor. Webpack should hot reload your page
@@ -32,4 +54,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos
+  }
+}
+
+App = connect(mapStateToProps, null)(App);
+
+export default DragDropContext(HTML5Backend)(App);

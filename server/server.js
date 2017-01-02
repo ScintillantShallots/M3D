@@ -10,6 +10,8 @@ const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const database = require('./config');
 const User = require('./models/user');
+
+const controller = require('./resources/controller')
 const app = express();
 const compiler = webpack(config);
 
