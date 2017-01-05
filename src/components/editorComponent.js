@@ -102,7 +102,7 @@ class EditorComponent extends Component {
         <div> NOTHING YET </div>
       )
     } else {
-      console.log('THIS IS THE RENDERED COMPONENT THAT I AM CLICKLING', this.props.currComponent);
+      console.log('THIS IS THE RENDERED COMPONENT THAT I AM CLICKING', this.props.currComponent);
       console.log('THIS IS THE STATE THAT IS FROM THE RENDERED COMPONENT', this.state)
       let component = this.state;
       let { css, type, name } = component;
