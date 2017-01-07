@@ -63,7 +63,8 @@
   },
   "scripts": {
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
-    "start": "export NODE_ENV=production && nodemon server/server.js",
+    "build": "npm run clean && npm run build:webpack",
+    "start": "nodemon server/server.js",
     "lint": "eslint src",
     "test": "mocha --require ignore-styles server/test/*.test.js",
     "test_old": "mocha --require ignore-styles test/.setup.js test/**/*.test.js server/test/*.test.js"
