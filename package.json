@@ -62,6 +62,7 @@
     "zip-folder": "^1.0.0"
   },
   "scripts": {
+    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "start": "export NODE_ENV=production && nodemon server/server.js",
     "lint": "eslint src",
     "test": "mocha --require ignore-styles server/test/*.test.js",
