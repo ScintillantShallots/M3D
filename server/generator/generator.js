@@ -105,8 +105,17 @@ const templates = {
 >>>>>>> Adds UserContainer and provides nesting capabilities on backend
 
     return componentText;
-  }
- // Textbox etc.
+  },
+
+ // Textbox
+ Textbox: (props) => {
+   let text = props.text;
+   let css = JSON.stringify(props.css);
+
+   let componentText = `React.createElement('div', {style: ${css}}, '${text}')`;
+
+   return componentText;
+ }
 }
 
 const escapeSpecialChars = function(text) {
