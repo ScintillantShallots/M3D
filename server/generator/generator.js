@@ -70,7 +70,10 @@ const templates = {
     let src = props.src;
     let css = JSON.stringify(props.css);
 
+<<<<<<< 6f8c9a9de8034daa8959359dfde7b2a1a7e621de
 <<<<<<< 5128c22ddbb6ce38000869945de86d96b0279db7
+=======
+>>>>>>> Adds UserContainer and provides nesting capabilities on backend
     let componentText = `React.createElement('img', {src: '${src}', style: ${css}})`;
 
     return componentText;
@@ -92,11 +95,14 @@ const templates = {
     }
 
     let componentText = `React.createElement('div', {style: ${css}}, [${builtChildren}])`;
+<<<<<<< 6f8c9a9de8034daa8959359dfde7b2a1a7e621de
 =======
     let componentText = `
       React.createElement('img', {src: '${src}', style: ${css}})
     `;
 >>>>>>> Adds root structure for template
+=======
+>>>>>>> Adds UserContainer and provides nesting capabilities on backend
 
     return componentText;
   }
