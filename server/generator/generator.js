@@ -12,7 +12,7 @@ const mapStateTreeToReact = (stateTree) => {
 
     const IndexComponent = function () {
       return (
-        React.createElement('section', {}, [
+        React.createElement('section', {classNmae: 'flex-container'}, [
     `;
     for (var i = 0; i < components.length; i++) {
       let actual = storage[components[i].componentId];
@@ -70,6 +70,7 @@ const templates = {
     let src = props.src;
     let css = JSON.stringify(props.css);
 
+<<<<<<< 5128c22ddbb6ce38000869945de86d96b0279db7
     let componentText = `React.createElement('img', {src: '${src}', style: ${css}})`;
 
     return componentText;
@@ -91,6 +92,11 @@ const templates = {
     }
 
     let componentText = `React.createElement('div', {style: ${css}}, [${builtChildren}])`;
+=======
+    let componentText = `
+      React.createElement('img', {src: '${src}', style: ${css}})
+    `;
+>>>>>>> Adds root structure for template
 
     return componentText;
   }
