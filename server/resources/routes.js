@@ -44,6 +44,8 @@ Router.route('/addNewProject')
 Router.route('/saveSite')
   .post(Controller.saveUserSite);
 
+Router.route('/deleteProject')
+  .post(Controller.deleteProject);
 
 Router.route('/tempData/myZip.zip')
   .get(function(req, res) {
