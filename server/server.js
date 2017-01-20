@@ -18,7 +18,7 @@ const compiler = webpack(config);
 //////////////////////////////
 // config ===================
 //////////////////////////////
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 80;
 mongoose.connect(database.database);
 app.set('superSecret', database.secret);
 
