@@ -32,14 +32,20 @@ export const _components = {
   },
   Textbox: (project = {}, page = 'IndexPage', userId = null) => {
     let defaultCss = {
+      "textAlign": "center",
+      "border": "1px solid black",
+      "borderRadius": "25px",
       "backgroundColor": "cornflowerblue",
-      "width": "100px",
-      "height": "100px",
-      "margin": "10px"
+      "width": "300px",
+      "height": "20px",
+      "margin": "10px",
+      "color": "black",
+      "fontSize": "14px",
+      "fontFamily": "serif"
     };
     let component = {
       name: 'Default Textbox Name',
-      text: 'I AM A TEXTBOX I GOT LOADED HAHA',
+      text: 'Write some text here...',
       css: defaultCss,
       children: [],
       type: 'Textbox',
@@ -54,9 +60,11 @@ export const _components = {
   },
   Image: (project = {}, page = 'IndexPage', userId = null) => {
     let defaultCss = {
-      width: '100px',
-      height: '100px',
-      margin: '10px'
+      width: '260px',
+      height: '180px',
+      margin: '5px',
+      border: "0px solid black",
+      borderRadius: "0px",
     }
     let component = {
       name: 'Default Image Name',
@@ -82,10 +90,11 @@ export const _components = {
       justifyContent: 'center',
       position: 'relative',
       alignItems: 'center',
-      backgroundColor: 'red',
+      backgroundColor: '#5E2E2E',
       width: '400px',
       height: '400px',
-      margin: '10px'
+      margin: '10px',
+      borderRadius: "25px",
     }
     let component = {
       name: 'Default User Container',
@@ -111,9 +120,10 @@ export const _components = {
       position: 'relative',
       alignItems: 'center',
       backgroundColor: 'white',
-      width: '300px',
-      height: '300px',
-      margin: '10px'
+      width: '400px',
+      height: '400px',
+      margin: '10px',
+      borderRadius: "25px",
     };
     let idOfImage = _components["Image"]();
     let idOfTextbox = _components["Textbox"]();
@@ -149,7 +159,8 @@ export const _components = {
       backgroundColor: 'grey',
       width: '400px',
       height: '400px',
-      margin: '10px'
+      margin: '10px',
+      borderRadius: "25px",
     };
     let component = {
       name: 'Default Carousel',
@@ -173,4 +184,3 @@ export const storage = {
 };
 
 export const componentReferences = [];
-

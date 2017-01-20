@@ -103,7 +103,9 @@ class Dashboard extends Component {
     let title = document.getElementById('title').value;
     let description = document.getElementById('description').value;
     let imgUrl = document.getElementById('imgUrl').value;
-
+    if (imgUrl === '') {
+      imgUrl = 'http://entertainment.inquirer.net/files/2016/07/13717225_1265259390150735_8093269019210020606_o.jpg';
+    }
     axios.post('/addNewProject', {userId: this.props.loginStatus.id, title: title, description: description, imgUrl: imgUrl})
       .then((response) => {
 
@@ -148,6 +150,7 @@ class Dashboard extends Component {
   }
 
   render() {
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -161,7 +164,6 @@ class Dashboard extends Component {
         onTouchTap={ this.addNewProject.bind(this) }
       />,
     ];
-
     // console.log('THIS IS THE PROJECTS THAT ARE CURRENTLY INSIDE REDUX INSIDE DASHBOARD', this.state.projects)
     let userId = this.state.userId;
     console.log(this.state.projects);
@@ -172,6 +174,8 @@ class Dashboard extends Component {
             title="XyClone | Dashboard"
             className='AppBar-EditorPage'
             iconElementRight={ <LogoutButtonContainer /> }
+            showMenuIconButton={false}
+
           />
         </div>
 
@@ -179,11 +183,11 @@ class Dashboard extends Component {
 
         </div>
 
-        <div>
-        <RaisedButton
-            label="+ Add New Project"
-            onTouchTap={this.handleOpen.bind(this)}
-          />
+        <div className='dashboard-AddProjectButton'>
+          <RaisedButton
+              label="+ Add New Project"
+              onTouchTap={this.handleOpen.bind(this)}
+            />
         </div>
 
           <div className="websitesBox-container">

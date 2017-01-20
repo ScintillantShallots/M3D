@@ -54,6 +54,7 @@ class UserContainerContext extends Component {
       context.props.onChangeStyleClick(newProps, context.props.currComponentId, context.props.currComponent);
       resolve();
     });
+
     dispatchHandler.then(() => {
       saveToSessionStorage(context.props.components, context.props.currProject, context.props.loginStatus.id);
     });
@@ -116,10 +117,11 @@ class UserContainerContext extends Component {
     e.preventDefault();
     let context = this;
     let dispatchHandler = new Promise(function(resolve, reject) {
-      context.props.onEditorComponentSidebarClick(context.state.addChild, context.props.currComponentId, context.props.currProject, context.props.loginStatus.id);
+      context.props.onEditorComponentSidebarClick(context.state.childSelector, context.props.currComponentId, context.props.currProject, context.props.loginStatus.id);
       resolve();
     })
     dispatchHandler.then(() => {
+
       saveToSessionStorage(context.props.components, context.props.currProject, context.props.loginStatus.id);
     })
   }
@@ -128,11 +130,14 @@ class UserContainerContext extends Component {
     e.preventDefault();
     let context = this;
     let dispatchHandler = new Promise(function(resolve, reject) {
+      console.log('DELETING CONTAINER');
       context.props.deleteFocusedComponent(context.props.currComponentId, context.props.currComponent);
       resolve();
     })
     dispatchHandler.then(() => {
-      saveToSessionStorage(context.props.components, context.props.currProject, context.props.loginStatus.id);
+      let newComponents = context.props.components.filter((component) => { return component.componentId !== context.props.currComponentId});
+      console.log(newComponents)
+      saveToSessionStorage(newComponents, context.props.currProject, context.props.loginStatus.id);
     })
   }
 
@@ -148,7 +153,7 @@ class UserContainerContext extends Component {
         <div className="imagecontext-container">
           <div>User Container</div>
           <TextField
-            defaultValue={name}
+            value={name}
             floatingLabelText="Container Name"
             onChange={this.changeProp.bind(this, 'name', null)}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
@@ -171,23 +176,30 @@ class UserContainerContext extends Component {
             </div>
           }
           <TextField
-            defaultValue={css.width}
+            value={css.width}
             floatingLabelText="Width"
             onChange={this.changeProp.bind(this, 'css', 'width')}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
             fullWidth={true}
           />
           <TextField
-            defaultValue={css.height}
+            value={css.height}
             floatingLabelText="Height"
             onChange={this.changeProp.bind(this, 'css', 'height')}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
             fullWidth={true}
           />
           <TextField
-            defaultValue={css.margin}
+            value={css.margin}
             floatingLabelText="Margin"
             onChange={this.changeProp.bind(this, 'css', 'margin')}
+            onKeyPress={this.handleEnterKeyPress.bind(this)}
+            fullWidth={true}
+          />
+          <TextField
+            value={css.borderRadius}
+            floatingLabelText="Border Radius"
+            onChange={this.changeProp.bind(this, 'css', 'borderRadius')}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
             fullWidth={true}
           />

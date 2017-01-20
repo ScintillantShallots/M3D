@@ -13,11 +13,12 @@ const initialState = {
 // HELPER FUNCTION
 
 // MIGHT NEED TO REFACTOR TO FIND CERTAIN PROJECT ELEMENT
-let recurseDelete = (element) => {
+let recurseDelete = (element, arrayOfChildren) => {
 	// console.log(element, 'RECURSEDELETE WITH ELEMENT');
 	if (element.children.length > 0) {
-		for (let i = 0; i < element.children.length; i++) {
-			recurseDelete(storage[element.children[i].componentId]);
+    for (let i = 0; i < element.children.length; i++) {
+      arrayOfChildren.push(element.children[i].componentId);
+			recurseDelete(storage[element.children[i].componentId], arrayOfChildren);
 		}
 	}
 	element.children.length = 0;
@@ -71,34 +72,34 @@ export default function xyclone (state = initialState, action) {
 				currComponentId: action.componentId
 			});
 		case 'CHANGE_STYLE':
-			console.log('CHANGING STYLE');
-			console.log(storage);
+			// console.log('CHANGING STYLE');
+			// console.log(storage);
 			// project = action.project;
 			// page = action.page || null;
 			// userId = action.userId
 			// REFACTOR THIS TO GET PROJECTID/PAGE AND EVERYTHING FROM ACIOTN.CURRCOMPONENT
 			var newItem = Object.assign({}, storage[action.componentId], {});
 			for (let key in action.newProps) {
-				console.log(action.newProps);
-				console.log(action.newProps[key]);
-				console.log('========================');
+				// console.log(action.newProps);
+				// console.log(action.newProps[key]);
+				// console.log('========================');
 				newItem[key] = action.newProps[key];
 			}
 			storage[action.componentId] = newItem;
-			console.log(storage);
+			// console.log(storage);
 			return Object.assign({}, state, {
 				currComponent: newItem,
 				currComponentId: action.componentId
 			});
 		case 'ADD_CHILDREN':
-			// console.log('ADDING A CHILD INTO', action.componentId);
+			console.log('ADDING A CHILD INTO', action.componentId);
 			var parentEle = storage[action.componentId];
 			elem = action.componentType;
 			project = action.project;
 			page = action.page || 'IndexPage'; // Index page is default
 			userId = action.userId;
-			console.log('ADDDING A CHILDREN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-			console.log(userId);
+			// console.log('ADDDING A CHILDREN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+			// console.log(userId);
 			// console.log('THIS IS STORAGE BEFORE', storage);
 			let newObjectId = _components[elem](project, page, userId);
 			storage[newObjectId].parent = {componentId: action.componentId, type: parentEle.type, projectId: project.projectId, page: page};
@@ -113,20 +114,35 @@ export default function xyclone (state = initialState, action) {
 
 		case 'DELETE_COMPONENT':
 			componentFromStorage = action.component;
-			console.log(componentFromStorage, 'THIS IS COMPONENT FROM STORAGE');
+			// console.log(componentFromStorage, 'THIS IS COMPONENT FROM STORAGE');
 			// REFACTOR THIS PART TO BE MORE EFFICENT (OBJECT????)
+      let arrayOfChildren = [];
 			if (componentFromStorage.type === 'UserContainer' || componentFromStorage.type === 'GalleryPost' || componentFromStorage.type === 'Carousel') {
-				recurseDelete(componentFromStorage);
+				recurseDelete(componentFromStorage, arrayOfChildren);
 			}
+
+      console.log(arrayOfChildren);
+
+      for (let key in storage) {
+        if (!key.includes('body')) {
+          for (let i = 0; i < arrayOfChildren.length; i++) {
+            console.log(JSON.parse(key), arrayOfChildren[i]);
+            if (JSON.parse(key) === arrayOfChildren[i]) {
+              delete storage[key];
+            }
+          }
+        }
+      }
 
 			//MIGHT NEED TO REFACTOR TO FIND CERTAIN PROEJCT COMPONENT IS FROM
 			if (Object.keys(componentFromStorage.parent).length !== 0) {
 				storage[componentFromStorage.parent.componentId].children = storage[componentFromStorage.parent.componentId].children.filter((ref) => ref.componentId !== action.componentId);
 			}
 			delete storage[action.componentId];
-
+      let filteredForObject = state.components.filter((ref) => ref.componentId !== action.componentId)
+      console.log(filteredForObject);
 			return Object.assign({}, state, {
-				components: state.components.filter((ref) => ref.componentId !== action.componentId),
+				components: filteredForObject,
 				currComponent: null,
 				currComponentId: null
 			});
@@ -164,7 +180,7 @@ export default function xyclone (state = initialState, action) {
     	let objToSwap1;
     	let objToSwap2;
     	if (JSON.stringify(action.idToSwap).includes('body')) {
-    		console.log('IT INCLUDES BODY');
+    		// console.log('IT INCLUDES BODY');
     		return Object.assign({}, state, {
     			swapFlag: !state.swapFlag
     		});
@@ -196,10 +212,10 @@ export default function xyclone (state = initialState, action) {
     	// 		});
     	// 	}
     	// }
-    	console.log(objToSwap1[0]);
-    	console.log(objToSwap2[0]);
-    	console.log(objToSwap1[0].parent.componentId, objToSwap2[1]);
-    	console.log(objToSwap2[0].parent.componentId, objToSwap1[1]);
+    	// console.log(objToSwap1[0]);
+    	// console.log(objToSwap2[0]);
+    	// console.log(objToSwap1[0].parent.componentId, objToSwap2[1]);
+    	// console.log(objToSwap2[0].parent.componentId, objToSwap1[1]);
 
     	// IF OBJSWAPPING TARGET IS A PARENT
     	if (objToSwap1[0].parent.componentId === JSON.parse(objToSwap2[1]) || objToSwap2[0].parent.componentId === JSON.parse(objToSwap1[1])) {
@@ -250,9 +266,9 @@ export default function xyclone (state = initialState, action) {
 		  					objToSwap1[0].parent = temp;
 
 		  				} else if (storage[component.componentId].children[i].componentId === JSON.parse(objToSwap2[1])) {
-		  					console.log('SWAPPING FOR THE OTHER CASE');
-		  					console.log(storage[storage[component.componentId].children[i].componentId]);
-		  					console.log(objToSwap2[0]);
+		  					// console.log('SWAPPING FOR THE OTHER CASE');
+		  					// console.log(storage[storage[component.componentId].children[i].componentId]);
+		  					// console.log(objToSwap2[0]);
 		  					// REASSIGN PROPERTIES
 		  					storage[component.componentId].children[i].type = objToSwap1[0].type;
 		  					storage[component.componentId].children[i].projectId = objToSwap1[0].project.projectId;

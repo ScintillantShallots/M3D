@@ -14,7 +14,9 @@ class ImageContext extends Component {
       css: {
         width: '',
         height: '',
-        margin: ''
+        margin: '',
+        border: '',
+        borderRadius: ''
       },
       src: '',
       alt: '',
@@ -61,6 +63,8 @@ class ImageContext extends Component {
 
   // Use this to update the properties of the component in state
   changeProp (propertyToSet, cssProp, context, val) {
+    console.log(cssProp);
+    console.log(val);
     if (cssProp) {
       let cssObject = this.state.css;
       cssObject[cssProp] = val;
@@ -78,8 +82,9 @@ class ImageContext extends Component {
       resolve();
     })
     dispatchHandler.then(() => {
-      saveToSessionStorage(context.props.components, context.props.currProject, context.props.loginStatus.id);
-    })
+      let newComponents = context.props.components.filter((component) => { return component.componentId !== context.props.currComponentId});
+      console.log(newComponents)
+      saveToSessionStorage(newComponents, context.props.currProject, context.props.loginStatus.id);    })
   }
 
   render() {
@@ -94,7 +99,7 @@ class ImageContext extends Component {
         <div className="imagecontext-container">
           <div>{type}</div>
           <TextField
-            defaultValue={name}
+            value={name}
             floatingLabelText="Image Name"
             onChange={this.changeProp.bind(this, 'name', null)}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
@@ -102,7 +107,7 @@ class ImageContext extends Component {
           />
           <TextField
             inputStyle={{fontSize: '6pt'}}
-            defaultValue={src}
+            value={src}
             hintText="http://www.imgur.com/hax1337"
             floatingLabelText="Image Source"
             onChange={this.changeProp.bind(this, 'src', null)}
@@ -110,28 +115,42 @@ class ImageContext extends Component {
             fullWidth={true}
           />
           <TextField
-            defaultValue={alt}
+            value={alt}
             floatingLabelText="Alternate Text"
             onChange={this.changeProp.bind(this, 'alt', null)}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
             fullWidth={true}
           />
           <TextField
-            defaultValue={css.width}
+            value={css.width}
             floatingLabelText="Width"
             onChange={this.changeProp.bind(this, 'css', 'width')}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
             fullWidth={true}
           />
           <TextField
-            defaultValue={css.height}
+            value={css.height}
             floatingLabelText="Height"
             onChange={this.changeProp.bind(this, 'css', 'height')}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
             fullWidth={true}
           />
           <TextField
-            defaultValue={css.margin}
+            value={css.border}
+            floatingLabelText="Border"
+            onChange={this.changeProp.bind(this, 'css', 'border')}
+            onKeyPress={this.handleEnterKeyPress.bind(this)}
+            fullWidth={true}
+          />
+          <TextField
+            value={css.borderRadius}
+            floatingLabelText="Border Radius"
+            onChange={this.changeProp.bind(this, 'css', 'borderRadius')}
+            onKeyPress={this.handleEnterKeyPress.bind(this)}
+            fullWidth={true}
+          />
+          <TextField
+            value={css.margin}
             floatingLabelText="Margin"
             onChange={this.changeProp.bind(this, 'css', 'margin')}
             onKeyPress={this.handleEnterKeyPress.bind(this)}
