@@ -8,11 +8,11 @@ class FacebookLogin extends Component {
   componentDidMount() {
     window.fbAsyncInit = function() {
       FB.init({
-        appId      : '233882087066195',
+        appId      : '346047239113026',
         cookie     : true,  // enable cookies to allow the server to access
                           // the session
         xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.1' // use version 2.1
+        version    : 'v2.8' // use version 2.1
       })
     };
 
