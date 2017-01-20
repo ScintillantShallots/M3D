@@ -3,22 +3,48 @@ import { Provider } from 'react-redux';
 import App from '../App';
 
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
-import Dashboard from '../Dashboard/Dashboard';
+
+import axios from 'axios';
+import DashboardContainer from '../Dashboard/DashboardContainer';
 import Login from '../Login/Login';
-import EditorPage from '../Editor/EditorPage'
+import EditorPage from '../Editor/EditorPage';
+import LoginLocalContainer from '../Login/LoginLocalContainer'
+import EditorPageContainer from '../Editor/EditorPageContainer';
+
 export default class Root extends Component {
+
+  requireAuth () {
+    if (Object.keys(this.props.store.getState().xycloneLogin.loginStatus).length === 0) {
+      browserHistory.push('/login');
+    }
+  }
+
+  checkLogin () {
+    if (Object.keys(this.props.store.getState().xycloneLogin.loginStatus).length !== 0) {
+      browserHistory.push('/dashboard');
+    }
+  }
+
+  checkCurrProjectId () {
+    if (this.props.store.getState().xycloneProjects.currProjectId === null) {
+      browserHistory.push('/dashboard');
+    }
+  }
+
   render() {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <Router history={browserHistory} >
-          <Route path='/' component={App} >
-            <IndexRoute component={Login} />
-            <Route path='/login' component={Login} />
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/editor' component={EditorPage} />
-          </Route>
-        </Router>
+        <div>
+          <Router history={browserHistory} >
+            <Route path='/' component={App}>
+              <IndexRoute component={LoginLocalContainer} />
+              <Route path='/login' component={LoginLocalContainer} onEnter={this.checkLogin.bind(this)}/>
+              <Route path='/dashboard' component={DashboardContainer} onEnter={this.requireAuth.bind(this)} />
+              <Route path='/editor' component={EditorPage} onEnter={this.checkCurrProjectId.bind(this)}/>
+            </Route>
+          </Router>
+        </div>
       </Provider>
     );
   }
