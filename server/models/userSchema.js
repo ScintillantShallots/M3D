@@ -1,6 +1,6 @@
 // init mongoose
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema;
 
 //test schema for inserting project zip files for users
