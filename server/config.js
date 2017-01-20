@@ -1,4 +1,4 @@
 module.exports = {
     'secret': 'scintillantshallots',
-    'database': 'mongodb://localhost/xyclone'
+    'database': `mongodb://localhost/xyclone`
 }
